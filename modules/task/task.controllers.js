@@ -71,7 +71,7 @@ const getTasksByClientController = asyncHandler(async (req, res, next) => {
   sendResponse(res,{
            statusCode : 200,
            success : true,
-           message : 'Task Deleted',
+           message : 'All Tasks retrived for a specific client',
            data: {count: tasks.length,tasks},
        });
 });
