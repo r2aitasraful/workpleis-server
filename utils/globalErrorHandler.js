@@ -1,3 +1,4 @@
+import { envLoader } from "../config/envs.js";
 import AppError from "./appError.js";
 
 export const globalErrorHandle = (err  , req , res , next)=>{
@@ -16,6 +17,6 @@ export const globalErrorHandle = (err  , req , res , next)=>{
         success : false,
         message,
         err,
-        stack : envs.NODE_ENV === 'development' ? err.stack : null
+        stack : envLoader.NODE_ENV === 'development' ? err.stack : null
     })
 }

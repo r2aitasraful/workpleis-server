@@ -51,8 +51,14 @@ const userSchema = new mongoose.Schema(
       default: false,
     },
   },
-  { timestamps: true }
+  { timestamps: true, versionKey : false }
 );
+
+
+
+const User = mongoose.model("User", userSchema);
+
+export default User;
 
 // Hash password before saving
 // userSchema.pre("save", async function (next) {

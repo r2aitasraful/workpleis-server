@@ -1,15 +1,14 @@
 
 
 import {Router} from 'express';
+import { userControllers } from '../modules/user/user.controllers.js';
 
 
 const userRouter = Router();
 
 
 
-userRouter.get('/',(req,res)=>{
-    res.send('hello i am a user')
-})
+userRouter.post('/register',userControllers.createUser);
 
 
 
