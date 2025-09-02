@@ -2,9 +2,11 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 
+
+
 const envsLoading = ()  =>{
-     const properties  = ['MONGODB_URL',
-        'PORT','NODE_ENV','JWT_ACCESS_TOKEN_SECRET','JWT_ACCESS_TOKEN_EXPIRESIN','BCRYPT_SALT'];
+       
+     const properties  = ['MONGODB_URL','PORT','NODE_ENV','JWT_ACCESS_TOKEN_SECRET','JWT_ACCESS_TOKEN_EXPIRESIN','BCRYPT_SALT'];
 
      properties.forEach((key)=>{
         if(!process.env[key]){
@@ -13,12 +15,12 @@ const envsLoading = ()  =>{
      })
     
      return {
-            PORT,
-            MONGODB_URL ,
-            NODE_ENV ,
-            JWT_ACCESS_TOKEN_SECRET ,
-            JWT_ACCESS_TOKEN_EXPIRESIN,
-            BCRYPT_SALT
+            PORT : process.env.PORT,
+            MONGODB_URL : process.env.MONGODB_URL ,
+            NODE_ENV : process.env.NODE_ENV ,
+            JWT_ACCESS_TOKEN_SECRET : process.env.JWT_ACCESS_TOKEN_SECRET,
+            JWT_ACCESS_TOKEN_EXPIRESIN : process.env.JWT_ACCESS_TOKEN_EXPIRESIN,
+            BCRYPT_SALT : process.env.BCRYPT_SALT
         }
 }
 
