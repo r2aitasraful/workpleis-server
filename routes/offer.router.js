@@ -1,20 +1,18 @@
 
 
 import {Router} from 'express';
-import { taskControllers } from '../modules/task/task.controllers.js';
 import { authentication } from '../middlewares/authentication.middleware.js';
+import { offerControllers } from '../modules/offer/offer.controllers.js';
 
 
 const offerRouter = Router();
 
 
 
-offerRouter.post('/',authentication('CLIENT'),taskControllers.createTaskController);
-offerRouter.get('/',authentication('CLIENT','JOB_SEEKER','ADMIN'),taskControllers.getAllTasksController);
-offerRouter.get('/:id',authentication('CLIENT','JOB_SEEKER','ADMIN'),taskControllers.getTaskByIdController);
-offerRouter.put('/:id',authentication('CLIENT'),taskControllers.updateTaskController);
-offerRouter.delete('/:id',authentication('CLIENT','ADMIN'),taskControllers.deleteTaskController);
-offerRouter.get('/client/:id',authentication('CLIENT'),taskControllers.getTasksByClientController);
+offerRouter.post('/:id',authentication('JOB_SEEKER'), offerControllers.createOfferController);
+offerRouter.get('/:id',authentication('CLIENT'),offerControllers.getOffersForTaskController);
+offerRouter.post('/:id/accept',authentication('CLIENT'),offerControllers.acceptOfferController);
+offerRouter.post('/:id/reject',authentication('CLIENT'),offerControllers.rejectOfferController);
 
 
 

@@ -4,6 +4,7 @@ import Offer from "./offer.model.js";
 
 // Submit an offer
 const createOfferService = async (taskId, jobSeekerId, payload) => {
+
   const task = await Task.findById(taskId);
 
   if (!task) throw new AppError(404, "Task not found");
@@ -24,7 +25,7 @@ const createOfferService = async (taskId, jobSeekerId, payload) => {
 
 // Get all offers for a task(only task owner can get offers)
 const getOffersForTaskService = async (taskId) => {
-  const offers = await Offer.find({ taskId })
+  const offers = await Offer.find({ task : taskId })
     .populate("jobSeeker", "name email")
     .sort({ createdAt: -1 });
 

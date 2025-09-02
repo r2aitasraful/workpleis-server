@@ -4,9 +4,9 @@ import { offerservices } from "./offer.services.js";
 
 // Job seeker submits offer
 const createOfferController = asyncHandler(async (req, res) => {
-
-const taskId = req.params.taskId
-const jobSeekerId = req.user.id
+const taskId = req.params.id;
+const jobSeekerId = req.user.id;
+console.log(taskId,jobSeekerId);
   const offer = await offerservices.createOfferService(
     taskId,
     jobSeekerId,
@@ -24,14 +24,14 @@ const jobSeekerId = req.user.id
 
 // Get all offers for a task
 const getOffersForTaskController = asyncHandler(async (req, res) => {
-  const taskId = req.params.taskId;
+  const taskId = req.params.id;
   const offers = await offerservices.getOffersForTaskService(taskId);
 sendResponse(res,{
              statusCode : 200,
              success : true,
              message : 'All offers retrived',
-             count: offers.length,
              data: offers,
+             meta : {count: offers.length}
          });
 });
 
@@ -66,4 +66,5 @@ export const offerControllers={
   createOfferController,
   getOffersForTaskController,
   acceptOfferController,
+  rejectOfferController
 }

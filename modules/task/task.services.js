@@ -19,7 +19,7 @@ const getTaskByIdService = async (taskId) => {
   const task = await Task.findById(taskId)
     .populate("createdBy", "name email");
 
-  if (!task) throw new AppError("Task not found", 404);
+  if (!task) throw new AppError(404,"Task not found");
   return task;
 };
 
@@ -31,7 +31,7 @@ const updateTaskService = async (taskId, payload, userId) => {
     { new: true, runValidators: true }
   );
 
-  if (!task) throw new AppError("Task not found", 404);
+  if (!task) throw new AppError(404,"Task not found");
   return task;
 };
 
@@ -39,7 +39,7 @@ const updateTaskService = async (taskId, payload, userId) => {
 const deleteTaskService = async (taskId, userId) => {
   const task = await Task.findOneAndDelete({ _id: taskId, createdBy: userId });
 
-  if (!task) throw new AppError("Task not found or not authorized", 404);
+  if (!task) throw new AppError(404,"Task not found or not authorized");
   return task;
 };
 
