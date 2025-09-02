@@ -1,7 +1,8 @@
 
 
 import {Router} from 'express';
-import { authControllers } from '../modules/auth/auth.controllers';
+import { authControllers } from '../modules/auth/auth.controllers.js';
+import { authentication } from '../middlewares/authentication.middleware.js';
 
 
 const authRouter = Router();
@@ -9,6 +10,11 @@ const authRouter = Router();
 
 
 authRouter.post('/login',authControllers.authLoginController);
+authRouter.post('/check',authentication('CLIENT'),(req,res)=>{
+    res.json({
+        message : "you are an athorized user"
+    })
+});
 
 
 

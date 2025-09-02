@@ -28,6 +28,8 @@ const authLoginService = async(payload)=>{
     const token = generateToken(tokenPayload,envLoader.JWT_ACCESS_TOKEN_SECRET,envLoader.JWT_ACCESS_TOKEN_EXPIRESIN)
 
     return {
+        name : isUserExist.name,
+        email : isUserExist.email,
         token
     };
 }
