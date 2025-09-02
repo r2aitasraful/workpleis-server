@@ -16,31 +16,74 @@ const createTaskController = asyncHandler(async (req, res) => {
 });
 
 // Get all tasks
-// export const getAllTasks = catchAsync(async (req, res, next) => {
-//   const tasks = await taskService.getAllTasks();
-//   res.status(200).json({ success: true, data: tasks });
-// });
+const getAllTasksController = asyncHandler(async (req, res) => {
+  const tasks = await taskServices.getAllTasksService();
+   sendResponse(res,{
+           statusCode : 200,
+           success : true,
+           message : 'All tasks retrived',
+           data : tasks
+       });
+});
 
 // // Get task details
-// export const getTaskById = catchAsync(async (req, res, next) => {
-//   const task = await taskService.getTaskById(req.params.id);
-//   res.status(200).json({ success: true, data: task });
-// });
+const getTaskByIdController = asyncHandler(async (req, res) => {
+  const taskId = req.params.id;
+  const task = await taskServices.getTaskByIdService(taskId);
+  sendResponse(res,{
+           statusCode : 200,
+           success : true,
+           message : 'Task retrived',
+           data : task
+       });
+});
 
-// // Update task
-// export const updateTask = catchAsync(async (req, res, next) => {
-//   const task = await taskService.updateTask(req.params.id, req.body, req.user.id);
-//   res.status(200).json({ success: true, data: task });
-// });
+// Update task
+const updateTaskController = asyncHandler(async (req, res) => {
+    const taskId = req.params.id;
+    const clientId = req.user.id;
+    const task = await taskServices.updateTaskService(taskId, req.body,clientId);
+    sendResponse(res,{
+           statusCode : 200,
+           success : true,
+           message : 'Task updated',
+           data : task
+       });
+});
 
-// // Delete task
-// export const deleteTask = catchAsync(async (req, res, next) => {
-//   await taskService.deleteTask(req.params.id, req.user.id);
-//   res.status(204).json({ success: true, message: "Task deleted" });
-// });
+// Delete task
+const deleteTaskController = asyncHandler(async (req, res) => {
+    const taskId = req.params.id;
+    const clientId = req.user.id
+    await taskServices.deleteTaskService(taskId,clientId );
+    sendResponse(res,{
+           statusCode : 200,
+           success : true,
+           message : 'Task Deleted',
+       });
+});
+
+// Get all tasks created by a specific client
+const getTasksByClientController = asyncHandler(async (req, res, next) => {
+    const clirntId = req.params.id;
+  const tasks = await taskServices.getTasksByClientService(clirntId);
+
+  sendResponse(res,{
+           statusCode : 200,
+           success : true,
+           message : 'Task Deleted',
+           data: {count: tasks.length,tasks},
+       });
+});
 
 
 export const taskControllers ={
-    createTaskController
+    createTaskController,
+    getAllTasksController,
+    getTaskByIdController,
+    updateTaskController,
+    deleteTaskController,
+    getTasksByClientController
+    
 }
  

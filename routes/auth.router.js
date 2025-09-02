@@ -10,6 +10,7 @@ const authRouter = Router();
 
 
 authRouter.post('/login',authControllers.authLoginController);
+
 authRouter.post('/check',authentication('CLIENT'),(req,res)=>{
     res.json({
         message : "you are an athorized user"

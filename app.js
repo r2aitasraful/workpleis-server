@@ -16,7 +16,7 @@ app.use(cors())
 
 app.use('/api/v1/user',userRouter);
 app.use('/api/v1/auth',authRouter);
-app.use('/api/v1/task',taskRouter);
+app.use('/api/v1/tasks',taskRouter);
 
 // app.get('/',(req,res)=>{
 //     res.send('hello world')
