@@ -4,13 +4,13 @@ import { authServices } from "./auth.services.js";
 
 
 const authLoginController = asyncHandler(async(req , res)=>{
-    const user = await authServices.authLoginService(req.body);
+    const data = await authServices.authLoginService(req.body);
 
     sendResponse(res,{
         statusCode : 200,
         success : true,
         message : 'User logged in successful',
-        data : user
+        data : data
     });
 })
 export const authControllers ={

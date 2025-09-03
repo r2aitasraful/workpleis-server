@@ -1,4 +1,5 @@
 import AppError from "../../utils/appError.js";
+import Offer from "../offer/offer.model.js";
 import Task from "./task.model.js";
 
 
@@ -20,7 +21,10 @@ const getTaskByIdService = async (taskId) => {
     .populate("createdBy", "name email");
 
   if (!task) throw new AppError(404,"Task not found");
-  return task;
+
+  const applicants = await Offer.find({task : taskId}).countDocuments();
+   
+  return {task, applicants};
 };
 
 // Update a task (only owner can update)
