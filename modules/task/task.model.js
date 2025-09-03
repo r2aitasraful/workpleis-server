@@ -19,12 +19,6 @@ const taskSchema = new mongoose.Schema(
         ref: "User",
       },
     ],
-    ratings: {
-      type: Number,
-      min: 0,
-      max: 5,
-      default: 0,
-    },
     projectType: {
       type: String,
       enum: ["one-time", "ongoing", "hourly"],
@@ -59,7 +53,7 @@ const taskSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ["open", "assigned", "in_progress", "completed", "closed"],
+      enum: ["open", "assigned", "in_progress", "completed"],
       default: "open",
     },
     createdBy: {

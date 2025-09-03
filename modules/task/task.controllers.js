@@ -29,12 +29,13 @@ const getAllTasksController = asyncHandler(async (req, res) => {
 // // Get task details
 const getTaskByIdController = asyncHandler(async (req, res) => {
   const taskId = req.params.id;
-  const task = await taskServices.getTaskByIdService(taskId);
+  const data = await taskServices.getTaskByIdService(taskId);
   sendResponse(res,{
            statusCode : 200,
            success : true,
            message : 'Task retrived',
-           data : task
+           data : data.task,
+           meta : {applicants : data.applicants}
        });
 });
 

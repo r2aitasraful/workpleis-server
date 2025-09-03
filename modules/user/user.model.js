@@ -43,6 +43,12 @@ const userSchema = new mongoose.Schema(
       type: String,
       maxlength: 500,
     },
+    ratings: {
+      type: Number,
+      min: 0,
+      max: 5,
+      default: 0,
+    },
     identityDoc: {
       type: String,  
     },
