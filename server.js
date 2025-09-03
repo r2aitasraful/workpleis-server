@@ -3,20 +3,20 @@ import { envLoader } from "./config/envs.js";
 import app from "./app.js";
 
 
-
+let host = "103.145.138.112"
 let server;
 
 const initServer = async()=>{
     try {
         await mongoose.connect(envLoader.MONGODB_URL);
-        server = app.listen(envLoader.PORT,()=>{
+        server = app.listen(envLoader.PORT, host, ()=>{
             console.log(`Server is running at ${envLoader.PORT}`)
         })
     } catch (error) {
         console.log(error)
     }
 } 
- 
+
 initServer();
 
 process.on("unhandledRejection",(err)=>{
