@@ -26,5 +26,8 @@
     "url": "https://github.com/r2aitasraful/workpleis-server/issues"
   },
   "homepage": "https://github.com/r2aitasraful/workpleis-server#readme",
-  "description": ""
+  "description": "",
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
 }

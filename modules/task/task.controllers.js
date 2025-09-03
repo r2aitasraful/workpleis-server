@@ -22,11 +22,12 @@ const getAllTasksController = asyncHandler(async (req, res) => {
            statusCode : 200,
            success : true,
            message : 'All tasks retrived',
-           data : tasks
+           data : tasks,
+           meta : {count : tasks.length}
        });
 });
 
-// // Get task details
+// Get task details
 const getTaskByIdController = asyncHandler(async (req, res) => {
   const taskId = req.params.id;
   const data = await taskServices.getTaskByIdService(taskId);
@@ -55,7 +56,7 @@ const updateTaskController = asyncHandler(async (req, res) => {
 // Delete task
 const deleteTaskController = asyncHandler(async (req, res) => {
     const taskId = req.params.id;
-    const clientId = req.user.id
+    const clientId = req.user.id;
     await taskServices.deleteTaskService(taskId,clientId );
     sendResponse(res,{
            statusCode : 200,
@@ -65,15 +66,18 @@ const deleteTaskController = asyncHandler(async (req, res) => {
 });
 
 // Get all tasks created by a specific client
-const getTasksByClientController = asyncHandler(async (req, res, next) => {
-    const clirntId = req.params.id;
-  const tasks = await taskServices.getTasksByClientService(clirntId);
+const getTasksByClientController = asyncHandler(async (req, res) => {
+  const clientId = req.user.id;
+  const tasks = await taskServices.getTasksByClientService(clientId);
 
   sendResponse(res,{
            statusCode : 200,
            success : true,
            message : 'All Tasks retrived for a specific client',
-           data: {count: tasks.length,tasks},
+           data: tasks,
+           meta : {
+            count : tasks.length
+           }
        });
 });
 

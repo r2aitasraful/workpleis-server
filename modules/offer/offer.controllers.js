@@ -6,7 +6,7 @@ import { offerservices } from "./offer.services.js";
 const createOfferController = asyncHandler(async (req, res) => {
 const taskId = req.params.id;
 const jobSeekerId = req.user.id;
-console.log(taskId,jobSeekerId);
+
   const offer = await offerservices.createOfferService(
     taskId,
     jobSeekerId,
@@ -17,7 +17,7 @@ console.log(taskId,jobSeekerId);
   sendResponse(res,{
              statusCode : 201,
              success : true,
-             message : 'Offer created',
+             message : 'Offer submited',
              data: offer,
          });
 });
@@ -25,15 +25,16 @@ console.log(taskId,jobSeekerId);
 // Get all offers for a task
 const getOffersForTaskController = asyncHandler(async (req, res) => {
   const taskId = req.params.id;
-  const offers = await offerservices.getOffersForTaskService(taskId);
-sendResponse(res,{
-             statusCode : 200,
-             success : true,
-             message : 'All offers retrived',
-             data: offers,
-             meta : {count: offers.length}
-         });
-});
+  const clientId = req.user.id;
+  const offers = await offerservices.getOffersForTaskService(taskId,clientId);
+  sendResponse(res,{
+              statusCode : 200,
+              success : true,
+              message : 'All offers retrived',
+              data: offers,
+              meta : {count: offers.length}
+          });
+  });
 
 // client accepts an offer
 const acceptOfferController = asyncHandler(async (req, res) => {
