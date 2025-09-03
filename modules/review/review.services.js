@@ -57,7 +57,7 @@ const createReviewService = async (taskId, fromUserId, toUserId, payload) => {
   const userReviews = await Review.find({ to: toUserId });
 
   const userAvgRating = userReviews.reduce((sum, r) => sum + r.rating, 0) / userReviews.length;
-  console.log(userAvgRating);
+ 
   await User.findByIdAndUpdate(toUserId, { ratings: userAvgRating });
 
 
