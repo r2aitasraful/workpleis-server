@@ -10,8 +10,41 @@ const createTaskService =async(payload,userId)=>{
 }
 
 // Get all tasks
-const getAllTasksService = async () => {
-  const tasks = await Task.find().populate("createdBy", "name email");
+const getAllTasksService = async (queries) => {
+
+  const query = {};
+
+  if (queries.location) {
+    query.location = { $regex: queries.location, $options: "i" };
+  }
+
+  if (queries.projectType) {
+    query.projectType = queries.projectType;
+  }
+
+  if (queries.urgency) {
+    query.urgency = queries.urgency;
+  }
+
+  if (queries.category) {
+    query.category = queries.category;
+  }
+
+  if (queries.minBudget || queries.maxBudget) {
+    query.budget = {};
+    if (queries.minBudget) query.budget.$gte = Number(queries.minBudget);
+    if (queries.maxBudget) query.budget.$lte = Number(queries.maxBudget);
+  }
+
+  // Sorting
+  let sortOption = { createdAt: -1 }; // default (latest first)
+  if (queries.budgetSort === "high") {
+    sortOption = { budget: -1 }; // higher → lower
+  } else if (queries.budgetSort === "low") {
+    sortOption = { budget: 1 }; // lower → higher
+  }
+
+  const tasks = await Task.find(query).sort(sortOption).populate("createdBy", "name email");
   return tasks;
 };
 

@@ -56,6 +56,10 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    isPayment :{
+      type: Boolean,
+      default: false
+    }
   },
   { timestamps: true, versionKey : false }
 );

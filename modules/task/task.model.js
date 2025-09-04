@@ -17,12 +17,6 @@ const taskSchema = new mongoose.Schema(
       required: [true, "Budget is required"],
       min: [1, "Budget must be at least 1"],
     },
-    applicants: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
-      },
-    ],
     projectType: {
       type: String,
       enum: ["one-time", "ongoing", "hourly"],

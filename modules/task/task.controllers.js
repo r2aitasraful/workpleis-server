@@ -17,7 +17,7 @@ const createTaskController = asyncHandler(async (req, res) => {
 
 // Get all tasks
 const getAllTasksController = asyncHandler(async (req, res) => {
-  const tasks = await taskServices.getAllTasksService();
+  const tasks = await taskServices.getAllTasksService(req.query);
    sendResponse(res,{
            statusCode : 200,
            success : true,
