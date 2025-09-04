@@ -8,6 +8,7 @@ import bcrypt from 'bcryptjs';
 
 const requestPasswordResetService =async(email)=>{
     const user = await User.findOne({ email });
+     
   if (!user) {
     throw new AppError(404, "User not found");
 }
@@ -18,10 +19,12 @@ const requestPasswordResetService =async(email)=>{
   const otp = Math.floor(100000 + Math.random() * 900000).toString();
   const expiresAt = Date.now() + 5 * 60 * 1000;
 
- const newRequest = new ForgotPassword({
-    email, otp, expiresAt
- })
-
+// update if exists, create if not
+const newRequest = await ForgotPassword.findOneAndUpdate(
+    { email },
+    { otp, expiresAt, verified: false },
+    { upsert: true, new: true } 
+  );
 
   // sendEmail(email, `Your reset code: ${otp}`);
   return  newRequest;
@@ -29,7 +32,9 @@ const requestPasswordResetService =async(email)=>{
 
 
 const verifyForgotPasswordOtpService =async( email, otp )=>{
+    console.log(email,otp);
     const reset = await ForgotPassword.findOne({ email, otp });
+    console.log(reset);
   if (!reset) {
     throw new AppError(400, "Invalid OTP");
 }
@@ -53,10 +58,8 @@ const forgotPasswordService = async (email, otp, newPassword) => {
 }
 
   const user = await User.findOne({ email });
-  user.password = await bcrypt.hash(newPassword, envLoader.BCRYPT_SALT);
+  user.password = await bcrypt.hash(newPassword, Number(envLoader.BCRYPT_SALT));
   await user.save();
-
-  await ForgotPassword.deleteOne({ _id: reset._id });
 
   return user;
 };

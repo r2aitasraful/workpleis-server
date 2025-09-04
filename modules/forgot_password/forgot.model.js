@@ -30,6 +30,6 @@ const forgotPasswordSchema = new mongoose.Schema(
   }
 );
 
-const ForgotPassword = mongoose.model("PasswordReset", forgotPasswordSchema);
+const ForgotPassword = mongoose.model("ForgotPassword", forgotPasswordSchema);
 
 export default ForgotPassword;

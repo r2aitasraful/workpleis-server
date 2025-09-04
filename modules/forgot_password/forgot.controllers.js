@@ -1,7 +1,9 @@
 import { sendResponse } from "../../utils/sendResponse.js";
 import { forgotPasswordServices } from "./forgot.services.js";
 
-const requestPasswordForgotController = async (email) => {
+const requestPasswordForgotController = async (req,res) => {
+    const {email} = req.body;
+    
    const result = await forgotPasswordServices.requestPasswordResetService(email);
 
      sendResponse(res,{
@@ -12,7 +14,9 @@ const requestPasswordForgotController = async (email) => {
             });
 };
 
-const verifyPasswordForgotOtpController = async (email, otp) => {
+const verifyPasswordForgotOtpController = async (req,res) => {
+    const {email} = req.body;
+    const {otp}= req.params;
   const result = await forgotPasswordServices.verifyForgotPasswordOtpService(email,otp);
  sendResponse(res,{
                 statusCode : 200,
@@ -23,8 +27,10 @@ const verifyPasswordForgotOtpController = async (email, otp) => {
 };
 
 
-const forgotPasswordController =async(email, otp)=>{
-    const result = await forgotPasswordServices.forgotPasswordService(email,otp);
+const forgotPasswordController =async(req,res)=>{
+    const {email,newPassword} = req.body;
+    const {otp} = req.params;
+    const result = await forgotPasswordServices.forgotPasswordService(email,otp,newPassword);
     
 
      sendResponse(res,{

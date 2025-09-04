@@ -8,6 +8,7 @@ import authRouter from './routes/auth.router.js';
 import taskRouter from './routes/task.router.js';
 import offerRouter from './routes/offer.router.js';
 import reviewRouter from './routes/review.router.js';
+import forgotPasswordRouter from './routes/forgotPassword.router.js';
 
 
 
@@ -21,6 +22,7 @@ app.use('/api/v1/auth',authRouter);
 app.use('/api/v1/tasks',taskRouter);
 app.use('/api/v1/offers',offerRouter);
 app.use('/api/v1/reviews',reviewRouter);
+app.use('/api/v1/forgot/password',forgotPasswordRouter);
 
 // app.get('/',(req,res)=>{
 //     res.send('hello world')
