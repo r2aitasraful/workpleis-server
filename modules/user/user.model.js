@@ -56,10 +56,28 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    isPayment :{
+    isPaymentVerified :{
       type: Boolean,
       default: false
-    }
+    },
+    isVerifiedEmail: { 
+      type: Boolean, 
+      default: false 
+    },
+    isVerifiedPhone: { 
+      type: Boolean, 
+      default: false 
+    },
+    isVerifiedIdentity: { 
+      type: Boolean, 
+      default: false 
+    },
+
+    emailVerificationCode: String,
+    emailVerificationExpires: Date,
+
+    phoneVerificationCode: String,
+    phoneVerificationExpires: Date,
   },
   { timestamps: true, versionKey : false }
 );
