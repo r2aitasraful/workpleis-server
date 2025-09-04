@@ -21,7 +21,10 @@ const envsLoading = ()  =>{
             NODE_ENV : process.env.NODE_ENV ,
             JWT_ACCESS_TOKEN_SECRET : process.env.JWT_ACCESS_TOKEN_SECRET,
             JWT_ACCESS_TOKEN_EXPIRESIN : process.env.JWT_ACCESS_TOKEN_EXPIRESIN,
-            BCRYPT_SALT : process.env.BCRYPT_SALT
+            BCRYPT_SALT : process.env.BCRYPT_SALT,
+            FIREBASE_PROJECT_ID : process.env.FIREBASE_PROJECT_ID,
+            FIREBASE_PRIVATE_KEY : process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, "\n"),
+            FIREBASE_CLIENT_EMAIL : process.env.FIREBASE_CLIENT_EMAIL
         }
 }
 

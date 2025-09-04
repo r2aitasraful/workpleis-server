@@ -13,6 +13,24 @@ const authLoginController = asyncHandler(async(req , res)=>{
         data : data
     });
 })
+
+
+const googleLogincontroller = asyncHandler(async(req,res)=>{
+    const { token } = req.body;
+
+    const data = await authServices.googleLoginservice(token);
+
+    sendResponse(res,{
+        statusCode : 200,
+        success : true,
+        message : 'Google login successful.',
+        data :  data
+    });
+})
+
+
+
 export const authControllers ={
-    authLoginController
+    authLoginController,
+    googleLogincontroller
 }

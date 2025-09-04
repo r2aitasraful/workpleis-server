@@ -8,6 +8,10 @@ const taskSchema = new mongoose.Schema(
       trim: true,
       minlength: 2
     },
+    category : {
+      type: String,
+      required: [true, "Category is required"]
+    },
     budget: {
       type: Number,
       required: [true, "Budget is required"],
