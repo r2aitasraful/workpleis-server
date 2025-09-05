@@ -1,3 +1,5 @@
+import axios from "axios";
+import cloudinary from "../../config/cloudinary.config.js";
 import AppError from "../../utils/appError.js";
 import { generateVerificationCodeAndExpires } from "../../utils/generateCodeExpires.js";
 import User from "../user/user.model.js";
@@ -125,7 +127,7 @@ const verifyIdentityVerificationService = async (userId, frontImage, backImage) 
     "https://stationapi.veriff.com/v1/sessions",
     {
       verification: {
-        callback: process.env.VERIFF_CALLBACK_URL,
+        callback: 'http://103.145.138.112:8000/api/v1/verifications/indentity/verify',
         person: { userId },
         document: {
           type: "ID_CARD",
@@ -145,21 +147,44 @@ const verifyIdentityVerificationService = async (userId, frontImage, backImage) 
   const sessionId = veriffRes.data.verification.id;
 
   // 3. Save in DB
-  const verification = await IdentityVerification.create({
-    user: userId,
-    frontImageUrl,
-    backImageUrl,
-    sessionId,
-    status: "processing",
-  });
+  const user = await User.findById(userId);
+  if(!user) {
+        throw new AppError(404, "User not found");
+  }
 
-  return verification;
+  user.identitySessionId = sessionId;
+  await user.save();
+
+  return {sessionId,veriffRes };
 };
+
+
+const verifyIdentityVerificationVeriffService = async(sessionId,status)=>{
+    if(status !=="approved"){
+        throw new AppError(400,'Verification failed')
+    }
+
+    const user = await User.find({identitySessionId : sessionId});
+    if(!user){
+        throw new AppError(404, "User not found");
+    }
+    // if approved, mark user as verified
+    if (status === "approved") {
+       user.isVerifiedIdentity = true;
+    }
+    await user.save();
+    return {status,user}
+}
+
+
+
 
 
 export const verificationServices = {
     sendEmailVerificationCodeService,
     verifyEmailVerificationCodeService,
     sendPhoneVerificationCodeService,
-    verifyPhoneVerificationCodeService
+    verifyPhoneVerificationCodeService,
+    verifyIdentityVerificationService,
+    verifyIdentityVerificationVeriffService
 }

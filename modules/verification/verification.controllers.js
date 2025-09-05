@@ -61,22 +61,40 @@ const verifyPhoneNumberVerificationController =asyncHandler(async(req,res)=>{
         }); 
 });
 
-
-export const  verifyIdentityVerificationController = async (req, res) => {
-  try {
+// verify identity verification
+const  verifyIdentityVerificationController = asyncHandler(async (req, res) => {
+ 
     const userId = req.user.id;  
     const frontImage = req.files.frontImage?.[0];
     const backImage = req.files.backImage?.[0];
 
-    const verification = await verificationServices.veri(userId, frontImage, backImage);
+    const verification = await verificationServices.verifyIdentityVerificationService(userId, frontImage, backImage);
+    sendResponse(res,{
+                statusCode : 200,
+                success : true,
+                message : 'Identity verification submitted',
+                data :verification.sessionId
+            });
+    
+    
+})
 
-    res.status(201).json({
-      message: "Identity verification submitted",
-      status: verification.status,
-      sessionId: verification.sessionId,
-    });
+const identityVerificationVeriffCallbackController = async (req, res) => {
+  try {
+    const { verification } = req.body;
+
+    const sessionId = verification.id;
+    const status = verification.status; 
+    const data = await verificationServices.verifyIdentityVerificationVeriffService(sessionId,status);
+    sendResponse(res,{
+                statusCode : 200,
+                success : true,
+                message : 'Identity verification successfull',
+                data : data
+            });
+    
   } catch (error) {
-    next(error);
+    res.status(500).json({ error: "Callback processing failed" });
   }
 };
 
@@ -91,5 +109,6 @@ export const verificationControllers = {
     verifyEmailVerificationController,
     sendPhoneVerificationCodeController,
     verifyPhoneNumberVerificationController,
-    verifyIdentityVerificationController
+    verifyIdentityVerificationController,
+    identityVerificationVeriffCallbackController
 }

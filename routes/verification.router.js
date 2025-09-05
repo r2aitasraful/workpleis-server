@@ -8,6 +8,7 @@ const verificationRouter = Router();
 
 
 verificationRouter.post('/indentity',authentication('CLIENT'),upload.fields([{ name: "frontImage", maxCount: 1 }, { name: "backImage", maxCount: 1 }]),verificationControllers.verifyIdentityVerificationController);
+verificationRouter.post('/indentity/verify',verificationControllers.identityVerificationVeriffCallbackController);
 
 
 

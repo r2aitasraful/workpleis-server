@@ -1,5 +1,9 @@
 import mongoose from "mongoose";
 
+
+
+  
+
 const userSchema = new mongoose.Schema(
   {
     name: {
@@ -74,11 +78,14 @@ const userSchema = new mongoose.Schema(
       type: String,  
     },
 
-    emailVerificationCode: String,
-    emailVerificationExpires: Date,
+    identitySessionId : {type : String},
 
-    phoneVerificationCode: String,
-    phoneVerificationExpires: Date,
+
+    emailVerificationCode: {type : String},
+    emailVerificationExpires: {type : Date},
+
+    phoneVerificationCode: {type :  String},
+    phoneVerificationExpires: {type :  Date},
   },
   { timestamps: true, versionKey : false }
 );
