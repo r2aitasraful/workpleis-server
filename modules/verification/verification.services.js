@@ -3,6 +3,7 @@ import cloudinary from "../../config/cloudinary.config.js";
 import AppError from "../../utils/appError.js";
 import { generateVerificationCodeAndExpires } from "../../utils/generateCodeExpires.js";
 import User from "../user/user.model.js";
+import { envLoader } from "../../config/envs.js";
 
 
 
@@ -138,7 +139,7 @@ const verifyIdentityVerificationService = async (userId, frontImage, backImage) 
     },
     {
       headers: {
-        "X-AUTH-CLIENT": process.env.VERIFF_API_KEY,
+        "X-AUTH-CLIENT": envLoader.VERIFF_API_KEY,
         "Content-Type": "application/json",
       },
     }
