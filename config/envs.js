@@ -6,7 +6,9 @@ dotenv.config();
 
 const envsLoading = ()  =>{
        
-     const properties  = ['MONGODB_URL','PORT','NODE_ENV','JWT_ACCESS_TOKEN_SECRET','JWT_ACCESS_TOKEN_EXPIRESIN','BCRYPT_SALT'];
+     const properties  = ['MONGODB_URL','PORT','NODE_ENV',
+        'JWT_ACCESS_TOKEN_SECRET','JWT_ACCESS_TOKEN_EXPIRESIN',
+        'BCRYPT_SALT','CLOUD_NAME','CLOUD_API_KEY','CLOUD_SECRET_KEY'];
 
      properties.forEach((key)=>{
         
@@ -24,7 +26,10 @@ const envsLoading = ()  =>{
             BCRYPT_SALT : process.env.BCRYPT_SALT,
             FIREBASE_PROJECT_ID : process.env.FIREBASE_PROJECT_ID,
             FIREBASE_PRIVATE_KEY : process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, "\n"),
-            FIREBASE_CLIENT_EMAIL : process.env.FIREBASE_CLIENT_EMAIL
+            FIREBASE_CLIENT_EMAIL : process.env.FIREBASE_CLIENT_EMAIL,
+            CLOUD_NAME : process.env.CLOUD_NAME,
+            CLOUD_API_KEY : process.env.CLOUD_API_KEY,
+            CLOUD_SECRET_KEY : process.env.CLOUD_SECRET_KEY
         }
 }
 

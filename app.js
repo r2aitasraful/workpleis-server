@@ -9,12 +9,14 @@ import taskRouter from './routes/task.router.js';
 import offerRouter from './routes/offer.router.js';
 import reviewRouter from './routes/review.router.js';
 import forgotPasswordRouter from './routes/forgotPassword.router.js';
+import verificationRouter from './routes/verification.router.js';
 
 
 
 const app  = express();
 
 app.use(express.json())
+app.use(express.urlencoded({extended : true}));
 app.use(cors())
 
 app.use('/api/v1/user',userRouter);
@@ -23,10 +25,8 @@ app.use('/api/v1/tasks',taskRouter);
 app.use('/api/v1/offers',offerRouter);
 app.use('/api/v1/reviews',reviewRouter);
 app.use('/api/v1/forgot/password',forgotPasswordRouter);
+app.use('/api/v1/verifications',verificationRouter);
 
-// app.get('/',(req,res)=>{
-//     res.send('hello world')
-// })
 
  
 app.use(globalErrorHandle);

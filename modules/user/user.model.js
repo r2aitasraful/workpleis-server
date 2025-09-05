@@ -32,10 +32,6 @@ const userSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Address",
     },
-    isVerified: {
-      type: Boolean,
-      default: false,
-    },
     phoneNumber: {
       type: String,
     },
@@ -49,9 +45,7 @@ const userSchema = new mongoose.Schema(
       max: 5,
       default: 0,
     },
-    identityDoc: {
-      type: String,  
-    },
+    
     isGoogle: {
       type: Boolean,
       default: false,
@@ -71,6 +65,13 @@ const userSchema = new mongoose.Schema(
     isVerifiedIdentity: { 
       type: Boolean, 
       default: false 
+    },
+
+    identityFrontDoc: {
+      type: String,  
+    },
+    identityBackDoc: {
+      type: String,  
     },
 
     emailVerificationCode: String,

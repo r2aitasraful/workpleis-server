@@ -107,6 +107,56 @@ const verifyPhoneVerificationCodeService = async (userId, code) => {
 
 
 
+// identity verification service
+const verifyIdentityVerificationService = async (userId, frontImage, backImage) => {
+  if (!frontImage || !backImage) {
+    throw new AppError(400, "Both front and back images are required");
+  }
+
+  // 1. Upload to Cloudinary
+  const frontUpload = await cloudinary.uploader.upload_stream({ folder: "identity" }, frontImage.buffer);
+  const backUpload = await cloudinary.uploader.upload_stream({ folder: "identity" }, backImage.buffer);
+
+  const frontImageUrl = frontUpload.secure_url;
+  const backImageUrl = backUpload.secure_url;
+
+  // 2. Call Veriff API to create verification session
+  const veriffRes = await axios.post(
+    "https://stationapi.veriff.com/v1/sessions",
+    {
+      verification: {
+        callback: process.env.VERIFF_CALLBACK_URL,
+        person: { userId },
+        document: {
+          type: "ID_CARD",
+          front: frontImageUrl,
+          back: backImageUrl,
+        },
+      },
+    },
+    {
+      headers: {
+        "X-AUTH-CLIENT": process.env.VERIFF_API_KEY,
+        "Content-Type": "application/json",
+      },
+    }
+  );
+
+  const sessionId = veriffRes.data.verification.id;
+
+  // 3. Save in DB
+  const verification = await IdentityVerification.create({
+    user: userId,
+    frontImageUrl,
+    backImageUrl,
+    sessionId,
+    status: "processing",
+  });
+
+  return verification;
+};
+
+
 export const verificationServices = {
     sendEmailVerificationCodeService,
     verifyEmailVerificationCodeService,

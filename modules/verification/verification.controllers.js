@@ -1,5 +1,5 @@
 import { asyncHandler } from "../../utils/asyncHandler.js"
-import { sendResponse } from "../../utils/sendResponse";
+import { sendResponse } from "../../utils/sendResponse.js";
 import { verificationServices } from "./verification.services.js";
 
 
@@ -62,6 +62,25 @@ const verifyPhoneNumberVerificationController =asyncHandler(async(req,res)=>{
 });
 
 
+export const  verifyIdentityVerificationController = async (req, res) => {
+  try {
+    const userId = req.user.id;  
+    const frontImage = req.files.frontImage?.[0];
+    const backImage = req.files.backImage?.[0];
+
+    const verification = await verificationServices.veri(userId, frontImage, backImage);
+
+    res.status(201).json({
+      message: "Identity verification submitted",
+      status: verification.status,
+      sessionId: verification.sessionId,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+
 
 
 
@@ -70,5 +89,7 @@ const verifyPhoneNumberVerificationController =asyncHandler(async(req,res)=>{
 export const verificationControllers = {
     sendEmailVerificationCodeController,
     verifyEmailVerificationController,
-    sendPhoneVerificationCodeController
+    sendPhoneVerificationCodeController,
+    verifyPhoneNumberVerificationController,
+    verifyIdentityVerificationController
 }
