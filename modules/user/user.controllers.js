@@ -15,6 +15,6 @@ const createUser = asyncHandler(async(req , res)=>{
 })
 
 
-export const userControllers ={
+export const userControllers = {
     createUser
 } 

@@ -1,4 +1,5 @@
 import AppError from "../../utils/appError.js";
+import Conversation from "../conversation/conversation.model.js";
 import Task from "../task/task.model.js";
 import Offer from "./offer.model.js";
 
@@ -84,7 +85,14 @@ const acceptOfferService = async (offerId, clientId) => {
   task.assignedTo = offer.task._id;
   await task.save();
 
-  return offer;
+  // Create conversation (idempotent via unique index)
+  const conversation = await Conversation.findOneAndUpdate(
+    { task: task._id, client: task.createdBy, jobSeeker: offer.jobSeeker },
+    {},                                      
+    { new: true, upsert: true, setDefaultsOnInsert: true }
+  );
+
+  return {offer,task,conversation};
 };
 
 // Reject offer (only client can reject an offer)
